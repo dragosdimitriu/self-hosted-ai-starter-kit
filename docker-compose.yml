@@ -8,9 +8,7 @@ networks:
   ai-network:
 
 x-n8n: &service-n8n
-  build:
-    context: .
-    dockerfile: Dockerfile.n8n
+  image: n8nio/n8n:latest
   networks: ['ai-network']
   environment:
     - DB_TYPE=postgresdb
@@ -102,21 +100,6 @@ services:
         condition: service_healthy
       n8n-import:
         condition: service_completed_successfully
-
-  nginx:
-    image: nginx:alpine
-    container_name: nginx
-    hostname: nginx
-    networks: ['ai-network']
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
-    depends_on:
-      - n8n
 
   qdrant:
     image: qdrant/qdrant
