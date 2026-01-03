@@ -8,7 +8,9 @@ networks:
   ai-network:
 
 x-n8n: &service-n8n
-  image: n8nio/n8n:latest
+  build:
+    context: .
+    dockerfile: Dockerfile.n8n
   networks: ['ai-network']
   environment:
     - DB_TYPE=postgresdb
