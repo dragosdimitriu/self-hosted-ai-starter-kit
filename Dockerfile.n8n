@@ -7,6 +7,11 @@ RUN apk add --no-cache python3 py3-pip
 # Install n8n globally
 RUN npm install -g n8n
 
+# Create Python virtual environment for n8n task runner
+USER root
+RUN python3 -m venv /home/node/.n8n-python
+USER node
+
 # Set working directory (node user already exists in node:20-alpine)
 WORKDIR /home/node
 
